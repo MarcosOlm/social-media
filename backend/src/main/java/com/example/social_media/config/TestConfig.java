@@ -20,9 +20,9 @@ public class TestConfig implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        Post p1 = new Post(null, "Estudando Java", 5, Instant.now(), null);
-        Post p2 = new Post(null, "Estudando Java", 5, Instant.now(), null);
-        Post p3 = new Post(null, "Estudando Java", 5, Instant.now(), null);
+        Post p1 = new Post(null, "Estudando Java", 5, Instant.now(), null, null);
+        Post p2 = new Post(null, "print('Hello, world')", 9, Instant.now(), null, p1);
+        Post p3 = new Post(null, "Estudando rust", 3, Instant.now(), null, null);
 
         postRepository.saveAll(Arrays.asList(p1, p2, p3));
     }

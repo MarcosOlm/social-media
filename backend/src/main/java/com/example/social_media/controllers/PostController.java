@@ -22,7 +22,7 @@ public class PostController {
 
     @PostMapping
     public ResponseEntity<Post> registerPost(@RequestBody PostRequest postRequest) {
-        Post post = new Post(null, postRequest.message(), 0, Instant.now(), postRequest.filePath());
+        Post post = new Post(null, postRequest.message(), 0, Instant.now(), postRequest.filePath(), postRequest.parentId());
         postService.insert(post);
         return ResponseEntity.ok().body(post);
     }

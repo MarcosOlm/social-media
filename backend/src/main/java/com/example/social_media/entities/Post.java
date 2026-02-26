@@ -1,11 +1,15 @@
 package com.example.social_media.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -21,15 +25,25 @@ public class Post implements Serializable {
     @Nullable
     private String filePath;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parent_id")
+    @JsonBackReference
+    private Post parentId;
+
+    @OneToMany(mappedBy = "parentId", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    Set<Post> comments = new HashSet<>();
+
     public Post() {
     }
 
-    public Post(UUID id, String menssage, Integer quantLike, Instant creationTime, @Nullable String filePath) {
+    public Post(UUID id, String menssage, Integer quantLike, Instant creationTime, @Nullable String filePath, Post parentId) {
         this.id = id;
         this.menssage = menssage;
         this.quantLike = quantLike;
         this.creationTime = creationTime;
         this.filePath = filePath;
+        this.parentId = parentId;
     }
 
     public UUID getId() {
@@ -48,7 +62,7 @@ public class Post implements Serializable {
         this.menssage = menssage;
     }
 
-    public Integer getLike() {
+    public Integer getQuantLike() {
         return quantLike;
     }
 
@@ -69,12 +83,28 @@ public class Post implements Serializable {
     }
 
     @Nullable
-    public String getImgPath() {
+    public String getFilePath() {
         return filePath;
     }
 
-    public void setImgPath(@Nullable String imgPath) {
-        this.filePath = imgPath;
+    public void setFilePath(@Nullable String filePath) {
+        this.filePath = filePath;
+    }
+
+    public Post getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(Post parentId) {
+        this.parentId = parentId;
+    }
+
+    public Set<Post> getComments() {
+        return comments;
+    }
+
+    public int getCommentCount() {
+        return comments.size();
     }
 
     @Override
