@@ -1,11 +1,14 @@
-package com.example.social_media.entities.dto;
+package com.example.social_media.entities.dto.posts;
 
 import com.example.social_media.entities.Post;
 
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
-class PostWithoutComment {
+public class PostResponse {
 
     private UUID id;
     private String menssage;
@@ -13,20 +16,24 @@ class PostWithoutComment {
     private Integer commentCount;
     private Instant creationTime;
     private String filePath;
-    private UUID parentId;
+    private PostWithoutComment parentId;
+    Set<PostWithoutComment> comments = new HashSet<>();
 
-    public PostWithoutComment(Post post) {
-        this.id = post.getId();
-        this.menssage = post.getMenssage();
-        this.quantLike = post.getQuantLike();
-        this.commentCount = post.getCommentCount();
-        this.creationTime = post.getCreationTime();
-        this.filePath = post.getFilePath();
-        UUID parentId = null;
-        if (post.getParentId() != null) {
-            parentId = post.getParentId().getId();
+    public PostResponse(UUID id, String menssage, Integer quantLike, Integer commentCount, Instant creationTime, String filePath, Post parentId, Set<Post> comments) {
+        this.id = id;
+        this.menssage = menssage;
+        this.quantLike = quantLike;
+        this.commentCount = commentCount;
+        this.creationTime = creationTime;
+        this.filePath = filePath;
+
+        // null point prevent
+        PostWithoutComment p = null;
+        if (parentId != null) {
+            p = new PostWithoutComment(parentId);
         }
-        this.parentId = parentId;
+        this.parentId = p;
+        this.comments = comments.stream().map(post -> post != null ? new PostWithoutComment(post): null).collect(Collectors.toSet());
     }
 
     public UUID getId() {
@@ -77,11 +84,19 @@ class PostWithoutComment {
         this.filePath = filePath;
     }
 
-    public UUID getParentId() {
+    public PostWithoutComment getParentId() {
         return parentId;
     }
 
-    public void setParentId(UUID parentId) {
+    public void setParentId(PostWithoutComment parentId) {
         this.parentId = parentId;
+    }
+
+    public Set<PostWithoutComment> getComments() {
+        return comments;
+    }
+
+    public void setComments(Set<PostWithoutComment> comments) {
+        this.comments = comments;
     }
 }

@@ -1,11 +1,11 @@
-package com.example.social_media.entities.dto;
+package com.example.social_media.entities.dto.posts;
 
 import com.example.social_media.entities.Post;
 
 import java.time.Instant;
 import java.util.UUID;
 
-public class AllPostResponse {
+class PostWithoutComment {
 
     private UUID id;
     private String menssage;
@@ -13,22 +13,20 @@ public class AllPostResponse {
     private Integer commentCount;
     private Instant creationTime;
     private String filePath;
-    private PostWithoutComment parentId;
+    private UUID parentId;
 
-    public AllPostResponse(UUID id, String menssage, Integer quantLike, Integer commentCount, Instant creationTime, String filePath, Post parentId) {
-        this.id = id;
-        this.menssage = menssage;
-        this.quantLike = quantLike;
-        this.commentCount = commentCount;
-        this.creationTime = creationTime;
-        this.filePath = filePath;
-
-        // null point prevent
-        PostWithoutComment p = null;
-        if (parentId != null) {
-            p = new PostWithoutComment(parentId);
+    public PostWithoutComment(Post post) {
+        this.id = post.getId();
+        this.menssage = post.getMenssage();
+        this.quantLike = post.getQuantLike();
+        this.commentCount = post.getCommentCount();
+        this.creationTime = post.getCreationTime();
+        this.filePath = post.getFilePath();
+        UUID parentId = null;
+        if (post.getParentId() != null) {
+            parentId = post.getParentId().getId();
         }
-        this.parentId = p;
+        this.parentId = parentId;
     }
 
     public UUID getId() {
@@ -79,11 +77,11 @@ public class AllPostResponse {
         this.filePath = filePath;
     }
 
-    public PostWithoutComment getParentId() {
+    public UUID getParentId() {
         return parentId;
     }
 
-    public void setParentId(PostWithoutComment parentId) {
+    public void setParentId(UUID parentId) {
         this.parentId = parentId;
     }
 }

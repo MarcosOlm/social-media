@@ -1,14 +1,11 @@
-package com.example.social_media.entities.dto;
+package com.example.social_media.entities.dto.posts;
 
 import com.example.social_media.entities.Post;
 
 import java.time.Instant;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
-public class PostResponse {
+public class AllPostResponse {
 
     private UUID id;
     private String menssage;
@@ -17,9 +14,8 @@ public class PostResponse {
     private Instant creationTime;
     private String filePath;
     private PostWithoutComment parentId;
-    Set<PostWithoutComment> comments = new HashSet<>();
 
-    public PostResponse(UUID id, String menssage, Integer quantLike, Integer commentCount, Instant creationTime, String filePath, Post parentId, Set<Post> comments) {
+    public AllPostResponse(UUID id, String menssage, Integer quantLike, Integer commentCount, Instant creationTime, String filePath, Post parentId) {
         this.id = id;
         this.menssage = menssage;
         this.quantLike = quantLike;
@@ -33,7 +29,6 @@ public class PostResponse {
             p = new PostWithoutComment(parentId);
         }
         this.parentId = p;
-        this.comments = comments.stream().map(post -> post != null ? new PostWithoutComment(post): null).collect(Collectors.toSet());
     }
 
     public UUID getId() {
@@ -90,13 +85,5 @@ public class PostResponse {
 
     public void setParentId(PostWithoutComment parentId) {
         this.parentId = parentId;
-    }
-
-    public Set<PostWithoutComment> getComments() {
-        return comments;
-    }
-
-    public void setComments(Set<PostWithoutComment> comments) {
-        this.comments = comments;
     }
 }

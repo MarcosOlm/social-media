@@ -20,7 +20,6 @@ public class Post implements Serializable {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private String menssage;
-    private Integer quantLike;
     private Instant creationTime;
     @Nullable
     private String filePath;
@@ -34,16 +33,23 @@ public class Post implements Serializable {
     @JsonManagedReference
     Set<Post> comments = new HashSet<>();
 
+    @OneToMany(mappedBy = "post")
+    Set<Like> likes = new HashSet<>();
+
+    @ManyToOne
+    @JoinColumn(name = "fk_userId")
+    private User user;
+
     public Post() {
     }
 
-    public Post(UUID id, String menssage, Integer quantLike, Instant creationTime, @Nullable String filePath, Post parentId) {
+    public Post(UUID id, String menssage, Instant creationTime, @Nullable String filePath, Post parentId, User user) {
         this.id = id;
         this.menssage = menssage;
-        this.quantLike = quantLike;
         this.creationTime = creationTime;
         this.filePath = filePath;
         this.parentId = parentId;
+        this.user = user;
     }
 
     public UUID getId() {
@@ -60,18 +66,6 @@ public class Post implements Serializable {
 
     public void setMenssage(String menssage) {
         this.menssage = menssage;
-    }
-
-    public Integer getQuantLike() {
-        return quantLike;
-    }
-
-    public void oneMoreLike() {
-        this.quantLike += 1;
-    }
-
-    public void oneLessLike() {
-        this.quantLike -= 1;
     }
 
     public Instant getCreationTime() {
@@ -105,6 +99,18 @@ public class Post implements Serializable {
 
     public int getCommentCount() {
         return comments.size();
+    }
+
+    public Integer getQuantLike() {
+        return likes.size();
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override

@@ -1,10 +1,9 @@
 package com.example.social_media.controllers;
 
 import com.example.social_media.entities.User;
-import com.example.social_media.entities.dto.SingInRequest;
-import com.example.social_media.entities.dto.SingUpRequest;
+import com.example.social_media.entities.dto.auth.SingInRequest;
+import com.example.social_media.entities.dto.auth.SingUpRequest;
 import com.example.social_media.repositories.UserRepository;
-import com.example.social_media.services.AuthService;
 import com.example.social_media.services.TokenService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
