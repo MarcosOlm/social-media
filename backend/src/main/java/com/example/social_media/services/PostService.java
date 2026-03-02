@@ -26,7 +26,7 @@ public class PostService {
     }
 
     public Post findById(UUID id) {
-        Optional<Post> post= postRepository.findById(id);
+        Optional<Post> post = postRepository.findById(id);
         return post.orElseThrow(() -> new ResourceNotFoundException(id));
     }
 }

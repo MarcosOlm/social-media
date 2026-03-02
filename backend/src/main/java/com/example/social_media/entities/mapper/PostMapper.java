@@ -10,8 +10,8 @@ import java.time.Instant;
 
 public class PostMapper {
 
-    public static Post DtoToPost(PostRequest postRequest, Post post, User user) {
-        return new Post(null, postRequest.message(), Instant.now(), postRequest.filePath(), post, user);
+    public static Post DtoToPost(PostRequest postRequest, String filePath, Post post, User user) {
+        return new Post(null, postRequest.message(), Instant.now(), filePath, post, user);
     }
 
     public static PostResponse PostToDtoWithoutComment(Post post) {
