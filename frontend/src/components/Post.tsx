@@ -7,7 +7,7 @@ interface PostProps {
 
 function Post({ classname }: PostProps) {
     return (
-        <article className={`w-full grid grid-cols-[1fr_8fr] grid-rows-[1fr_auto_1fr] gap-x-5 gap-y-1 p-4 ${classname}`}>
+        <article className={`w-full grid grid-cols-[auto_1fr] grid-rows-[1fr_auto_1fr] gap-x-5 gap-y-1 p-4 ${classname}`}>
             <div className="w-fit h-fit col-span-1 row-span-3 rounded-full bg-linear-to-tr from-primary to-primary/70 text-white p-3">
               <h1>MA</h1>
             </div>
