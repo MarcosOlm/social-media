@@ -4,9 +4,13 @@ import { Button } from "@/components/ui/button";
 import { Field, FieldGroup, FieldLabel, FieldSet } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { useAllPost, useInsertPost } from "@/features/posts/postHook";
+import type { createpostRequest } from "@/features/posts/postType";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ImagePlus, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useForm, type SubmitHandler } from "react-hook-form";
+import { useInView } from 'react-intersection-observer'
 
 export const Route = createFileRoute("/")({
   component: RouteComponent,
@@ -14,14 +18,27 @@ export const Route = createFileRoute("/")({
 
 function RouteComponent() {
   const [filePreview, setFilePreview] = useState<File | null>(null);
-  const posts = Array(20).fill(null);
+  const { register, handleSubmit } = useForm<createpostRequest>();
+  const createPost = useInsertPost();
+  const handleCreatePostSubmit: SubmitHandler<createpostRequest> = (data) => {
+    createPost.mutate({data: data, file: filePreview})
+  }
+
+  const { data, isPending, fetchNextPage, isFetchingNextPage } = useAllPost();
+  const { ref, inView } = useInView();
+
+  useEffect(() => {
+    if (inView) {
+      fetchNextPage();
+    }
+  }, [fetchNextPage, inView])
 
   return (
     <>
       <main className="lg:grid lg:grid-cols-[auto_1fr] lg:grid-rows-[auto_1fr]">
         <Header />
         <section className="border-b md:px-14 md:mx-auto lg:mx-0 lg:mr-auto lg:w-full lg:max-w-[56.25em] lg:border">
-          <form className="p-4 md:px-0">
+          <form className="p-4 md:px-0" onSubmit={handleSubmit(handleCreatePostSubmit)}>
             <FieldSet className="w-full grid grid-cols-[auto_1fr]">
               <div className="w-fit h-fit rounded-full bg-linear-to-tr from-primary to-primary/70 text-white p-3">
                 <h1>MA</h1>
@@ -31,6 +48,7 @@ function RouteComponent() {
                   <Textarea
                     placeholder="O que está acontecendo?"
                     className="resize-none"
+                    {...register("message")}
                   />
                 </Field>
                 {filePreview && 
@@ -68,17 +86,21 @@ function RouteComponent() {
           </form>
         </section>
         <section className="w-full lg:mx-0 lg:mr-auto lg:w-full lg:max-w-[56.25em] lg:border">
-          {posts.map((_, index) => (
+          {data?.pages.map((page) => (
+            page.content.map((post) => (
             <Link
               to="/$id"
               params={{
-                id: String(index),
+                id: post.id,
               }}
-              key={index}
+              key={post.id}
             >
-              <Post classname="md:px-14 md:mx-auto border-b" />
+              <Post classname="md:px-14 md:mx-auto border-b" post={post} />
             </Link>
+          ))
           ))}
+          {/* Fetching Next Intersection*/}
+          <div ref={ref}> {isFetchingNextPage && "carregando"} </div>
         </section>
       </main>
     </>
