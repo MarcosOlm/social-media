@@ -161,6 +161,17 @@
   --shadow-lg: var(--shadow-lg);
   --shadow-xl: var(--shadow-xl);
   --shadow-2xl: var(--shadow-2xl);
+
+  --animate-click: click .5s ease-in-out;
+
+  @keyframes click {
+    0%, 100% {
+      transform: scale(100%);
+    }
+    50% {
+      transform: scale(75%);
+    }
+  }
 }
 
 @layer base {

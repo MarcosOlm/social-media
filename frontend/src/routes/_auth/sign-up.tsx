@@ -1,17 +1,26 @@
 import { Button } from "@/components/ui/button";
 import { Field, FieldDescription, FieldGroup, FieldLabel, FieldLegend, FieldSet } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { useSignup } from "@/features/auth/authHook";
+import type { signupRequest } from "@/features/auth/authType";
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useForm, type SubmitHandler } from 'react-hook-form'
 
 export const Route = createFileRoute("/_auth/sign-up")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
+  const { register, handleSubmit } = useForm<signupRequest>();
+  const signup = useSignup();
+  const handleSignupSubimt: SubmitHandler<signupRequest> = (data) => {
+    signup.mutate(data);
+  }
+
   return (
     <>
       <div className="w-full">
-        <form>
+        <form onSubmit={handleSubmit(handleSignupSubimt)}>
           <FieldSet>
             <FieldLegend className="text-center">
               Crie sua conta
@@ -21,16 +30,16 @@ function RouteComponent() {
             </FieldDescription>
             <FieldGroup>
               <Field>
-                <FieldLabel>Nome de usuário:</FieldLabel>
-                <Input placeholder="Digite seu nome de usuário..." />
+                <FieldLabel htmlFor="username">Nome de usuário:</FieldLabel>
+                <Input placeholder="Digite seu nome de usuário..." id="username" {...register("username")}/>
               </Field>
               <Field>
-                <FieldLabel>Email:</FieldLabel>
-                <Input placeholder="seu@email.com" />
+                <FieldLabel htmlFor="email">Email:</FieldLabel>
+                <Input placeholder="seu@email.com" id="email" {...register("email")}/>
               </Field>
               <Field>
-                <FieldLabel>Senha:</FieldLabel>
-                <Input placeholder="*******" />
+                <FieldLabel htmlFor="password">Senha:</FieldLabel>
+                <Input placeholder="*******" id="password" {...register("password")}/>
               </Field>
               <Button type="submit">Cadastrar-se</Button>
               <div className="w-full flex items-center justify-center gap-x-1">

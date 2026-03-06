@@ -9,16 +9,25 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useForm, type SubmitHandler } from "react-hook-form";
+import type { signinRequest } from "@/features/auth/authType";
+import { useSignin } from "@/features/auth/authHook";
 
 export const Route = createFileRoute("/_auth/sign-in")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
+  const { register, handleSubmit } = useForm<signinRequest>();
+  const signin = useSignin();
+  const handleSigninSubmit: SubmitHandler<signinRequest> = (data) => {
+    signin.mutate(data);
+  }
+
   return (
     <>
       <div className="w-full">
-        <form>
+        <form onSubmit={handleSubmit(handleSigninSubmit)}>
           <FieldSet>
             <FieldLegend className="text-center">
               Bem-vindo de volta!
@@ -28,12 +37,12 @@ function RouteComponent() {
             </FieldDescription>
             <FieldGroup>
               <Field>
-                <FieldLabel>Nome de usuário:</FieldLabel>
-                <Input placeholder="Digite seu nome de usuário..." />
+                <FieldLabel htmlFor="username">Nome de usuário:</FieldLabel>
+                <Input placeholder="Digite seu nome de usuário..." id="username" {...register("username")}/>
               </Field>
               <Field>
-                <FieldLabel>Senha:</FieldLabel>
-                <Input placeholder="*******" />
+                <FieldLabel htmlFor="password">Senha:</FieldLabel>
+                <Input placeholder="*******" id="password" {...register("password")}/>
               </Field>
               <Button type="submit">Entrar</Button>
               <div className="w-full flex items-center justify-center gap-x-1">

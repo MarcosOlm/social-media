@@ -21,7 +21,7 @@ function RouteComponent() {
       <main className="lg:grid lg:grid-cols-[auto_1fr] lg:grid-rows-[auto_auto_minmax(0,1fr)]">
         <Header />
         <section className="lg:mx-0 lg:mr-auto lg:w-full lg:max-w-[56.25em] lg:border lg:col-start-2">
-          <Post classname="border-b md:px-14 md:mx-auto text-xl" variant="xl" />
+          <Post classname="border-b md:px-14 md:mx-auto text-xl" />
         </section>
         <section className="py-5 border-b md:px-14 md:mx-auto lg:col-start-2 lg:row-start-2
         lg:mx-0 lg:mr-auto lg:w-full lg:max-w-[56.25em] lg:border lg:h-min">
