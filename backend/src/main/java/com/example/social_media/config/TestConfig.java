@@ -79,7 +79,7 @@ public class TestConfig implements CommandLineRunner {
         Post p14 = new Post(null, "Testando algumas funcionalidades novas em um projeto pessoal para aprender mais sobre APIs REST.", Instant.now(), null, null, u14);
         Post p15 = new Post(null, "Hoje foquei em aprender mais sobre testes automatizados e como eles ajudam a manter a qualidade do software.", Instant.now(), null, null, u15);
         Post p16 = new Post(null, "Explorando bibliotecas novas do ecossistema Java e tentando entender quando vale a pena utilizá-las.", Instant.now(), null, null, u16);
-        Post p17 = new Post(null, "Passei algum tempo refatorando código antigo para deixá-lo mais limpo e fácil de entender.", Instant.now(), null, null, u17);
+        Post p17 = new Post(null, "Passei algum tempo refatorando código antigo para deixá-lo mais limpo e fácil de entender.", Instant.now(), null, p5, u17);
         Post p18 = new Post(null, "Hoje estudei sobre programação assíncrona e como ela pode melhorar a performance de aplicações.", Instant.now(), null, null, u18);
         Post p19 = new Post(null, "Praticando desenvolvimento backend criando endpoints e testando requisições com ferramentas de API.", Instant.now(), null, null, u19);
         Post p20 = new Post(null, "Comecei a estudar containers e achei muito interessante como o Docker facilita o deploy de aplicações.", Instant.now(), null, null, u20);

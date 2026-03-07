@@ -18,9 +18,10 @@ public class PostResponse {
     private String filePath;
     private PostWithoutComment parentId;
     private boolean isLiked;
+    private String createUser;
     Set<PostWithoutComment> comments = new HashSet<>();
 
-    public PostResponse(UUID id, String menssage, Integer quantLike, Integer commentCount, Instant creationTime, String filePath, Post parentId, boolean isLiked, Set<Post> comments) {
+    public PostResponse(UUID id, String menssage, Integer quantLike, Integer commentCount, Instant creationTime, String filePath, Post parentId, boolean isLiked, String createUser, Set<Post> comments) {
         this.id = id;
         this.menssage = menssage;
         this.quantLike = quantLike;
@@ -28,6 +29,7 @@ public class PostResponse {
         this.creationTime = creationTime;
         this.filePath = filePath;
         this.isLiked = isLiked;
+        this.createUser = createUser;
 
         // null point prevent
         PostWithoutComment p = null;
@@ -100,6 +102,14 @@ public class PostResponse {
 
     public void setLiked(boolean liked) {
         isLiked = liked;
+    }
+
+    public String getCreateUser() {
+        return createUser;
+    }
+
+    public void setCreateUser(String createUser) {
+        this.createUser = createUser;
     }
 
     public Set<PostWithoutComment> getComments() {

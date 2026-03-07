@@ -13,6 +13,7 @@ class PostWithoutComment {
     private Integer commentCount;
     private Instant creationTime;
     private String filePath;
+    private String createUser;
     private UUID parentId;
 
     public PostWithoutComment(Post post) {
@@ -22,6 +23,7 @@ class PostWithoutComment {
         this.commentCount = post.getCommentCount();
         this.creationTime = post.getCreationTime();
         this.filePath = post.getFilePath();
+        this.createUser = post.getCreator();
         UUID parentId = null;
         if (post.getParentId() != null) {
             parentId = post.getParentId().getId();
@@ -75,6 +77,14 @@ class PostWithoutComment {
 
     public void setFilePath(String filePath) {
         this.filePath = filePath;
+    }
+
+    public String getCreateUser() {
+        return createUser;
+    }
+
+    public void setCreateUser(String createUser) {
+        this.createUser = createUser;
     }
 
     public UUID getParentId() {

@@ -21,10 +21,10 @@ public class PostMapper {
 
     public static PostResponse PostToDtoWithoutComment(Post post, User user) {
 
-        return new PostResponse(post.getId(), post.getMenssage(), post.getQuantLike(), post.getCommentCount(), post.getCreationTime(), post.getFilePath(), post.getParentId(), post.getIsLiked(user), post.getComments());
+        return new PostResponse(post.getId(), post.getMenssage(), post.getQuantLike(), post.getCommentCount(), post.getCreationTime(), post.getFilePath(), post.getParentId(), post.getIsLiked(user), post.getCreator(), post.getComments());
     }
 
     public static AllPostResponse AllPostToDtoWithoutComment(Post post, User user) {
-        return new AllPostResponse(post.getId(), post.getMenssage(), post.getQuantLike(), post.getCommentCount(), post.getCreationTime(), post.getFilePath(), post.getIsLiked(user), post.getParentId());
+        return new AllPostResponse(post.getId(), post.getMenssage(), post.getQuantLike(), post.getCommentCount(), post.getCreationTime(), post.getFilePath(), post.getIsLiked(user), post.getCreator(), post.getParentId());
     }
 }

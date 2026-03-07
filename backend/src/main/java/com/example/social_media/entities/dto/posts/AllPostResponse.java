@@ -14,9 +14,10 @@ public class AllPostResponse {
     private Instant creationTime;
     private String filePath;
     private boolean isLiked;
+    private String createUser;
     private PostWithoutComment parentId;
 
-    public AllPostResponse(UUID id, String menssage, Integer quantLike, Integer commentCount, Instant creationTime, String filePath, boolean isLiked, Post parentId) {
+    public AllPostResponse(UUID id, String menssage, Integer quantLike, Integer commentCount, Instant creationTime, String filePath, boolean isLiked, String createUser, Post parentId) {
         this.id = id;
         this.menssage = menssage;
         this.quantLike = quantLike;
@@ -24,6 +25,7 @@ public class AllPostResponse {
         this.creationTime = creationTime;
         this.filePath = filePath;
         this.isLiked = isLiked;
+        this.createUser = createUser;
 
         // null point prevent
         PostWithoutComment p = null;
@@ -91,6 +93,14 @@ public class AllPostResponse {
 
     public void setLiked(boolean liked) {
         isLiked = liked;
+    }
+
+    public String getCreateUser() {
+        return createUser;
+    }
+
+    public void setCreateUser(String createUser) {
+        this.createUser = createUser;
     }
 
     public void setParentId(PostWithoutComment parentId) {
