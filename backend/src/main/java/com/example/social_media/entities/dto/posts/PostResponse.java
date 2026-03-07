@@ -17,15 +17,17 @@ public class PostResponse {
     private Instant creationTime;
     private String filePath;
     private PostWithoutComment parentId;
+    private boolean isLiked;
     Set<PostWithoutComment> comments = new HashSet<>();
 
-    public PostResponse(UUID id, String menssage, Integer quantLike, Integer commentCount, Instant creationTime, String filePath, Post parentId, Set<Post> comments) {
+    public PostResponse(UUID id, String menssage, Integer quantLike, Integer commentCount, Instant creationTime, String filePath, Post parentId, boolean isLiked, Set<Post> comments) {
         this.id = id;
         this.menssage = menssage;
         this.quantLike = quantLike;
         this.commentCount = commentCount;
         this.creationTime = creationTime;
         this.filePath = filePath;
+        this.isLiked = isLiked;
 
         // null point prevent
         PostWithoutComment p = null;
@@ -33,7 +35,7 @@ public class PostResponse {
             p = new PostWithoutComment(parentId);
         }
         this.parentId = p;
-        this.comments = comments.stream().map(post -> post != null ? new PostWithoutComment(post): null).collect(Collectors.toSet());
+        this.comments = comments.stream().map(post -> post != null ? new PostWithoutComment(post) : null).collect(Collectors.toSet());
     }
 
     public UUID getId() {
@@ -90,6 +92,14 @@ public class PostResponse {
 
     public void setParentId(PostWithoutComment parentId) {
         this.parentId = parentId;
+    }
+
+    public boolean isLiked() {
+        return isLiked;
+    }
+
+    public void setLiked(boolean liked) {
+        isLiked = liked;
     }
 
     public Set<PostWithoutComment> getComments() {

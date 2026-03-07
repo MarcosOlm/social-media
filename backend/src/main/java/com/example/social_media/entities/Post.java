@@ -113,6 +113,10 @@ public class Post implements Serializable {
         this.user = user;
     }
 
+    public boolean getIsLiked(User userLike) {
+        return !likes.stream().map((like -> like.getUser() == userLike)).toList().isEmpty();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;

@@ -59,7 +59,7 @@ public class PostController {
         }
 
         // file logic
-        if (!file.isEmpty()) {
+        if (file != null) {
             String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("MMddyyyy_HHmmss"));
             String fileName = timestamp + "-" + StringUtils.cleanPath(file.getOriginalFilename());
             try {
@@ -77,18 +77,20 @@ public class PostController {
 
         Post newPost = PostMapper.DtoToPost(postRequest, filePath, post, user);
         postService.insert(newPost);
-        return ResponseEntity.status(HttpStatus.CREATED).body(PostMapper.PostToDtoWithoutComment(newPost));
+        return ResponseEntity.status(HttpStatus.CREATED).body(PostMapper.PostToDtoWithoutComment(newPost, user));
     }
 
     @GetMapping
     public Page<AllPostResponse> getPost(Pageable pageable) {
-        return postService.searchPost(pageable).map(PostMapper::AllPostToDtoWithoutComment);
+        User user = userRepository.findByUsername(SecurityFilter.getUsernameFromContext());
+        return postService.searchPost(pageable).map((post) -> PostMapper.AllPostToDtoWithoutComment(post, user));
     }
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<PostResponse> getPostById(@PathVariable UUID id) {
+        User user = userRepository.findByUsername(SecurityFilter.getUsernameFromContext());
         Post post = postService.findById(id);
-        return ResponseEntity.ok().body(PostMapper.PostToDtoWithoutComment(post));
+        return ResponseEntity.ok().body(PostMapper.PostToDtoWithoutComment(post, user));
     }
 
     @GetMapping(value = "/image/{fileName:.+}")
