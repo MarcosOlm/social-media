@@ -14,7 +14,7 @@ export function useAllPost() {
         queryKey: ['allPost'],
         queryFn: getAllPost,
         initialPageParam: 0,
-        getNextPageParam: (lastPage) => lastPage.number + 1,
+        getNextPageParam: (lastPage) => lastPage.last ? null : lastPage.number + 1,
     })
 }
 

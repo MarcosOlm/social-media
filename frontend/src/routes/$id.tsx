@@ -19,14 +19,16 @@ function RouteComponent() {
   const [filePreview, setFilePreview] = useState<File | null>(null);
   const { register, handleSubmit } = useForm<createpostRequest>();
   const createPost = useInsertPost();
+  const postId = Route.useParams().id;
   const handleCreatePostSubmit: SubmitHandler<createpostRequest> = (data) => {
+    data.parentId = postId;
     createPost.mutate({ data: data, file: filePreview });
   };
 
   const { data, isPending, isError } = usePost(Route.useParams().id);
 
-  if (!data) {
-    return
+  if (!data || isError) {
+    return 
   }
 
   return (
