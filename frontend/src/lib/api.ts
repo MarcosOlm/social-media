@@ -12,3 +12,9 @@ api.interceptors.request.use((config) => {
     }
     return config
 })
+
+api.interceptors.response.use((resolve) => resolve, (error) => {
+    if (error.response.status === 403) {
+        window.location.href = "/sign-in";
+    }
+})

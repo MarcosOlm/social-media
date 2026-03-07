@@ -6,6 +6,7 @@ export type post = {
   creationTime: string;
   filePath: string | null;
   liked: boolean;
+  createUser: string,
   parentId: postWithoutComment;
   comments?: postWithoutComment[];
 };

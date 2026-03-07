@@ -4,6 +4,7 @@ import { useState } from "react";
 import type { post, postWithoutComment } from "@/features/posts/postType";
 import { usePost } from "@/features/posts/postHook";
 import { deleteLike, likePost } from "@/features/likes/likeService";
+import { useNavigate } from "@tanstack/react-router";
 
 type PostProps = {
   classname?: string;
@@ -29,6 +30,7 @@ function Post({ classname, post }: PostProps) {
   const videoTypes = ["mp4", "webm", "ogg"];
 
   // parent post logic
+  const navigate = useNavigate();
   let parentPost;
   if (typeof post.parentId != "string" && post.parentId != null) {
     parentPost = post.parentId.id;
@@ -41,9 +43,9 @@ function Post({ classname, post }: PostProps) {
       ${typeof post.parentId != "string" && post.parentId != null ? "auto_" : ""}1fr] gap-x-5 gap-y-1 p-3 ${classname}`}
     >
       <div className="w-fit h-fit col-span-1 row-span-3 rounded-full bg-linear-to-tr from-primary to-primary/70 text-white p-3">
-        <h1>MA</h1>
+        <h1> {post.createUser.slice(0, 2).toUpperCase()} </h1>
       </div>
-      <h1 className="col-start-2">marcosolm</h1>
+      <h1 className="col-start-2"> {post.createUser} </h1>
       <p className="col-start-2">{post.menssage}</p>
       {post.filePath ? (
         imageTypes.includes(filePath ?? "") ? (
@@ -64,7 +66,9 @@ function Post({ classname, post }: PostProps) {
       ) : null}
 
       {typeof post.parentId != "string" && post.parentId != null ? (
-        <section>
+        <section onClick={(e) => {e.preventDefault()
+          navigate({to: '/$id', params: {id: typeof post.parentId != "string" && post.parentId != null ? post.parentId.id : ""}})
+        }}>
           <Post post={data} classname="border rounded-2xl my-3" />
         </section>
       ) : null}

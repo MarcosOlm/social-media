@@ -9,7 +9,7 @@ import { useInsertPost, usePost } from "@/features/posts/postHook";
 import type { createpostRequest } from "@/features/posts/postType";
 import { queryClient } from "@/main";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ImagePlus, Send, X } from "lucide-react";
+import { ImagePlus, Send, User, X } from "lucide-react";
 import { useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 
@@ -64,7 +64,7 @@ function RouteComponent() {
             className="flex items-center justify-center gap-3 px-4 md:p-0"
           >
             <div className="w-fit h-fit rounded-full bg-linear-to-tr from-primary to-primary/70 text-white p-3">
-              <h1>MA</h1>
+              <User />
             </div>
             <Textarea
               className="border resize-none bg-muted h-min"

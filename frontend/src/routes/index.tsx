@@ -8,7 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useAllPost, useInsertPost } from "@/features/posts/postHook";
 import type { createpostRequest } from "@/features/posts/postType";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ImagePlus, Loader2Icon, X } from "lucide-react";
+import { ImagePlus, Loader2Icon, User, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { useInView } from "react-intersection-observer";
@@ -57,7 +57,7 @@ function RouteComponent() {
         >
           <FieldSet className="w-full grid grid-cols-[auto_1fr]">
             <div className="w-fit h-fit rounded-full bg-linear-to-tr from-primary to-primary/70 text-white p-3">
-              <h1>MA</h1>
+              <User /> 
             </div>
             <FieldGroup className="col-start-2 gap-3">
               <Field>
