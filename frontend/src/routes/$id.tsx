@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useInsertPost, usePost } from "@/features/posts/postHook";
 import type { createpostRequest } from "@/features/posts/postType";
+import { queryClient } from "@/main";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ImagePlus, Send, X } from "lucide-react";
 import { useState } from "react";
@@ -17,12 +18,26 @@ export const Route = createFileRoute("/$id")({
 
 function RouteComponent() {
   const [filePreview, setFilePreview] = useState<File | null>(null);
-  const { register, handleSubmit } = useForm<createpostRequest>();
+  const { register, handleSubmit, reset } = useForm<createpostRequest>();
   const createPost = useInsertPost();
   const postId = Route.useParams().id;
   const handleCreatePostSubmit: SubmitHandler<createpostRequest> = (data) => {
     data.parentId = postId;
-    createPost.mutate({ data: data, file: filePreview });
+    createPost.mutate({ data: data, file: filePreview }, { onSuccess(newPost) {
+      queryClient.setQueryData(['post', postId], (res: any) => {
+        reset()
+        setFilePreview(null)
+        return {...res, comments: [...(res.comments ?? []), {
+          id: newPost.id,
+          menssage: newPost.menssage,
+          quantLike: newPost.quantLike,
+          commentCount: newPost.commentCount + 1,
+          filePath: newPost.filePath,
+          creationTime: newPost.creationTime,
+          parentId: newPost.parentId.id
+        }]}
+      })
+    }});
   };
 
   const { data, isPending, isError } = usePost(Route.useParams().id);
@@ -64,7 +79,7 @@ function RouteComponent() {
                 className="hidden"
               />
             </Label>
-            <Button>
+            <Button disabled={createPost.isPending}>
               <Send size={18} />
             </Button>
           </form>

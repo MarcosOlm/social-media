@@ -3,6 +3,7 @@ import { Label } from "./ui/label";
 import { useState } from "react";
 import type { post, postWithoutComment } from "@/features/posts/postType";
 import { usePost } from "@/features/posts/postHook";
+import { deleteLike, likePost } from "@/features/likes/likeService";
 
 type PostProps = {
   classname?: string;
@@ -11,11 +12,11 @@ type PostProps = {
 
 function Post({ classname, post }: PostProps) {
   if (!post) {
-    return
-  }  
+    return;
+  }
 
   // buttons logic
-  const [like, setLike] = useState<boolean>(false);
+  const [like, setLike] = useState<boolean>(post.liked);
   const [copy, setCopy] = useState<boolean>(false);
   function textCopy(id: string) {
     navigator.clipboard.writeText(`http://MYPROJECT/${id}`);
@@ -64,18 +65,33 @@ function Post({ classname, post }: PostProps) {
 
       {typeof post.parentId != "string" && post.parentId != null ? (
         <section>
-            <Post post={data} classname="border rounded-2xl my-3" />
+          <Post post={data} classname="border rounded-2xl my-3" />
         </section>
       ) : null}
       <section
         className="col-start-2 flex items-center justify-start gap-5 w-fit"
         onClick={(e) => e.preventDefault()}
       >
-        <Label onClick={() => setLike(!like)} className="py-2 px-0.5">
+        <Label
+          onClick={() => {
+            if (!like) {
+              likePost(post.id);
+              post.quantLike = post.quantLike + 1;
+            } else {
+              deleteLike(post.id);
+              post.quantLike = post.quantLike - 1;
+            }
+            setLike(!like);
+            post.liked = !post.liked;
+          }}
+          className="py-2 px-0.5"
+        >
           <Heart
             size={18}
             className={
-              like ? "fill-rose-600 text-rose-600 animate-click" : "text-black"
+              post.liked || like
+                ? "fill-rose-600 text-rose-600 animate-click"
+                : "text-black"
             }
           />
           {post.quantLike}

@@ -18,11 +18,15 @@ export const Route = createFileRoute("/")({
 
 function RouteComponent() {
   const [filePreview, setFilePreview] = useState<File | null>(null);
-  const { register, handleSubmit } = useForm<createpostRequest>();
+  const { register, handleSubmit, reset } = useForm<createpostRequest>();
   const createPost = useInsertPost();
-  const handleCreatePostSubmit: SubmitHandler<createpostRequest> = (data) => {
-    createPost.mutate({ data: data, file: filePreview });
-  };
+  const handleCreatePostSubmit: SubmitHandler<createpostRequest> = (formData) => {
+  createPost.mutate({ data: formData, file: filePreview },{onSuccess() {
+      reset();
+      setFilePreview(null);
+    }}
+  );
+};
 
   const { data, isPending, fetchNextPage, isFetchingNextPage, hasNextPage } =
     useAllPost();
@@ -94,7 +98,7 @@ function RouteComponent() {
                       className="hidden"
                     />
                   </FieldLabel>
-                  <Button className="rounded-full">Publicar</Button>
+                  <Button className="rounded-full" disabled={createPost.isPending}>Publicar</Button>
                 </Field>
               </FieldGroup>
             </FieldSet>
@@ -119,7 +123,7 @@ function RouteComponent() {
             <div ref={ref} className="w-full">
               {" "}
               {isFetchingNextPage && (
-                <span className="mx-auto my-40 h-28 flex items-center justify-center">
+                <span className="mx-auto my-10 flex items-center justify-center">
                   {" "}
                   <Loader2Icon className="animate-spin" size={40} />{" "}
                 </span>

@@ -5,6 +5,7 @@ export type post = {
   commentCount: number;
   creationTime: string;
   filePath: string | null;
+  liked: boolean;
   parentId: postWithoutComment;
   comments?: postWithoutComment[];
 };

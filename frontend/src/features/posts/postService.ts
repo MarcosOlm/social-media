@@ -2,6 +2,9 @@ import { api } from "@/lib/api"
 import type { allPost, createpostRequest, post } from "./postType"
 
 export const getPost = async (id: string): Promise<post> => {
+    if (id == "") {
+        return Promise.reject();
+    }
     return (await api.get(`/post/${id}`)).data
 }
 
