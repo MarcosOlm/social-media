@@ -1,6 +1,7 @@
 import { Bird, LogOut } from "lucide-react";
 import { Button } from "./ui/button";
 import { Link } from "@tanstack/react-router";
+import ThemeButton from "./ThemeButton";
 
 function Header() {
   return (
@@ -13,10 +14,13 @@ function Header() {
           <Bird className="text-white lg:m-auto" />
         </div>
       </Link>
-      <Button variant={"ghost"} size={"lg"}>
+      <div className="flex lg:flex-col items-center justify-center gap-4">
+        <ThemeButton />
+        <Button variant={"ghost"} size={"lg"}>
         <LogOut />
         Sair
       </Button>
+      </div>
     </header>
   );
 }
