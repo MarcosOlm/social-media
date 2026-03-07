@@ -1,5 +1,6 @@
 import Header from "@/components/Header";
 import Post from "@/components/Post";
+import PostIdSkeletonSkeleton from "@/components/skeletons/PostIdPageSkeleton";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -41,13 +42,14 @@ function RouteComponent() {
   };
 
   const { data, isPending, isError } = usePost(Route.useParams().id);
+  
+  if (isPending) return <PostIdSkeletonSkeleton />
 
   if (!data || isError) {
     return 
   }
 
   return (
-    <>
       <main className="lg:grid lg:grid-cols-[auto_1fr] lg:grid-rows-[auto_auto_minmax(0,1fr)]">
         <Header />
         <section className="lg:mx-0 lg:mr-auto lg:w-full lg:max-w-[56.25em] lg:border lg:col-start-2">
@@ -120,6 +122,5 @@ function RouteComponent() {
           ))}
         </section>
       </main>
-    </>
   );
 }
