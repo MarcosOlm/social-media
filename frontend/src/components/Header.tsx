@@ -1,9 +1,13 @@
 import { Bird, LogOut } from "lucide-react";
 import { Button } from "./ui/button";
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import ThemeButton from "./ThemeButton";
+import { useAuth } from "@/stores/authStore";
 
 function Header() {
+  const { removetoken } = useAuth();
+  const navigate = useNavigate();
+
   return (
     <header
       className="flex items-center justify-between p-5 border-b md:px-14 md:mx-auto 
@@ -16,10 +20,13 @@ function Header() {
       </Link>
       <div className="flex lg:flex-col items-center justify-center gap-4">
         <ThemeButton />
-        <Button variant={"ghost"} size={"lg"}>
-        <LogOut />
-        Sair
-      </Button>
+        <Button variant={"ghost"} size={"lg"} onClick={() => {
+          removetoken()
+          navigate({to: "/sign-in"})
+        }}>
+          <LogOut />
+          Sair
+        </Button>
       </div>
     </header>
   );

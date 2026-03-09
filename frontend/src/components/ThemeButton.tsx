@@ -10,7 +10,7 @@ function ThemeButton() {
         setTheme(theme === "light" ? "dark" : "light");
       }}
       variant={"ghost"}
-      className="p-3"
+      className="p-3 w-20"
     >
       {theme === "light" ? "🌙 Escuro" : "🌞 Claro"}
     </Button>

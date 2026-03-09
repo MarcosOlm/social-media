@@ -12,7 +12,7 @@ function AllPostSkeleton() {
   const list = Array(10).fill(null);
 
   return (
-    <main className="lg:grid lg:grid-cols-[auto_1fr] lg:grid-rows-[auto_1fr]">
+    <div className="lg:grid lg:grid-cols-[auto_1fr] lg:grid-rows-[auto_1fr]">
       <Header />
       <section className="border-b md:px-14 md:mx-auto lg:mx-0 lg:mr-auto lg:w-full lg:max-w-[56.25em] lg:border">
         <form className="p-4 md:px-0">
@@ -57,7 +57,7 @@ function AllPostSkeleton() {
           </Link>
         ))}
       </section>
-    </main>
+    </div>
   );
 }
 

@@ -12,7 +12,7 @@ import { Skeleton } from "../ui/skeleton"
 function PostIdSkeletonSkeleton() {
     const list = Array(3).fill(null);
     return (
-        <main className="lg:grid lg:grid-cols-[auto_1fr] lg:grid-rows-[auto_auto_minmax(0,1fr)]">
+        <div className="lg:grid lg:grid-cols-[auto_1fr] lg:grid-rows-[auto_auto_minmax(0,1fr)]">
         <Header />
         <section className="lg:mx-0 lg:mr-auto lg:w-full lg:max-w-[56.25em] lg:border lg:col-start-2">
           <PostSkeleton />
@@ -55,7 +55,7 @@ function PostIdSkeletonSkeleton() {
             </Link>
           ))}
         </section>
-      </main>
+      </div>
     )
 }
 

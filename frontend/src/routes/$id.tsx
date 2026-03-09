@@ -32,6 +32,7 @@ function RouteComponent() {
           id: newPost.id,
           menssage: newPost.menssage,
           quantLike: newPost.quantLike,
+          createUser: newPost.createUser,
           commentCount: newPost.commentCount + 1,
           filePath: newPost.filePath,
           creationTime: newPost.creationTime,

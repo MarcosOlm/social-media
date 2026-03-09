@@ -9,15 +9,17 @@ import { useNavigate } from "@tanstack/react-router";
 type PostProps = {
   classname?: string;
   post: post | postWithoutComment | undefined;
+  hasButtons?: boolean;
 };
 
-function Post({ classname, post }: PostProps) {
+function Post({ classname, post, hasButtons = true }: PostProps) {
   if (!post) {
-    return;
+    return null;
   }
 
   // buttons logic
   const [like, setLike] = useState<boolean>(post.liked);
+  const [quantLike, setQuantLike] = useState<number>(post.quantLike);
   const [copy, setCopy] = useState<boolean>(false);
   function textCopy(id: string) {
     navigator.clipboard.writeText(`http://MYPROJECT/${id}`);
@@ -31,11 +33,12 @@ function Post({ classname, post }: PostProps) {
 
   // parent post logic
   const navigate = useNavigate();
-  let parentPost;
-  if (typeof post.parentId != "string" && post.parentId != null) {
-    parentPost = post.parentId.id;
-  }
-  const { data } = usePost(parentPost ?? "");
+  const parentId =
+    typeof post.parentId !== "string" && post.parentId != null
+      ? post.parentId.id
+      : undefined;
+
+  const { data } = usePost(parentId ?? "");
 
   return (
     <article
@@ -51,12 +54,12 @@ function Post({ classname, post }: PostProps) {
         imageTypes.includes(filePath ?? "") ? (
           <img
             src={post.filePath}
-            className="w-full max-h-[25em] object-cover object-center"
+            className="w-full max-h-[25em] object-cover object-center rounded-2xl"
           />
         ) : post.filePath && videoTypes.includes(filePath ?? "") ? (
           <video
             controls
-            className="w-full max-h-[25em] object-cover object-center"
+            className="w-full max-h-[25em] object-cover object-center rounded-2xl"
           >
             <source src={post.filePath} />
           </video>
@@ -65,51 +68,55 @@ function Post({ classname, post }: PostProps) {
         )
       ) : null}
 
-      {typeof post.parentId != "string" && post.parentId != null ? (
-        <section onClick={(e) => {e.preventDefault()
-          navigate({to: '/$id', params: {id: typeof post.parentId != "string" && post.parentId != null ? post.parentId.id : ""}})
-        }}>
-          <Post post={data} classname="border rounded-2xl my-3" />
-        </section>
-      ) : null}
-      <section
-        className="col-start-2 flex items-center justify-start gap-5 w-fit"
-        onClick={(e) => e.preventDefault()}
-      >
-        <Label
-          onClick={() => {
-            if (!like) {
-              likePost(post.id);
-              post.quantLike = post.quantLike + 1;
-            } else {
-              deleteLike(post.id);
-              post.quantLike = post.quantLike - 1;
-            }
-            setLike(!like);
-            post.liked = !post.liked;
+      {parentId && data && (
+        <section
+          onClick={(e) => {
+            e.preventDefault();
+            navigate({ to: "/$id", params: { id: parentId } });
           }}
-          className="py-2 px-0.5"
         >
-          <Heart
+          <Post key={data.id} post={data} classname="border rounded-2xl my-3" hasButtons={false} />
+        </section>
+      )}
+      {hasButtons && (
+        <section
+          className="col-start-2 flex items-center justify-start gap-5 w-fit"
+          onClick={(e) => e.preventDefault()}
+        >
+          <Label
+            onClick={() => {
+              if (!like) {
+                likePost(post.id);
+                setQuantLike(quantLike + 1);
+              } else {
+                deleteLike(post.id);
+                setQuantLike(quantLike - 1);
+              }
+              setLike(!like);
+            }}
+            className="py-2 px-0.5"
+          >
+            <Heart
+              size={18}
+              className={
+                like
+                  ? "fill-rose-600 text-rose-600 animate-click"
+                  : "text-black"
+              }
+            />
+            {quantLike}
+          </Label>
+          <Label className="py-2 px-0.5">
+            <MessageCircle size={18} />
+            {post.commentCount}
+          </Label>
+          <Share2
             size={18}
-            className={
-              post.liked || like
-                ? "fill-rose-600 text-rose-600 animate-click"
-                : "text-black"
-            }
+            onClick={() => textCopy("1")}
+            className={copy ? "animate-click" : ""}
           />
-          {post.quantLike}
-        </Label>
-        <Label className="py-2 px-0.5">
-          <MessageCircle size={18} />
-          {post.commentCount}
-        </Label>
-        <Share2
-          size={18}
-          onClick={() => textCopy("1")}
-          className={copy ? "animate-click" : ""}
-        />
-      </section>
+        </section>
+      )}
     </article>
   );
 }
