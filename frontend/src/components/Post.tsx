@@ -101,7 +101,7 @@ function Post({ classname, post, hasButtons = true }: PostProps) {
               className={
                 like
                   ? "fill-rose-600 text-rose-600 animate-click"
-                  : "text-black"
+                  : ""
               }
             />
             {quantLike}

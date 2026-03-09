@@ -50,7 +50,7 @@ function RouteComponent() {
   return (
     <main className="lg:grid lg:grid-cols-[auto_1fr] lg:grid-rows-[auto_1fr]">
       <Header />
-      <section className="border-b md:px-14 md:mx-auto lg:mx-0 lg:mr-auto lg:w-full lg:max-w-[56.25em] lg:border">
+      <section className="border-b md:px-14 md:mx-auto lg:mx-0 lg:mr-auto lg:w-full lg:max-w-[70em] lg:border">
         <form
           className="p-4 md:px-0"
           onSubmit={handleSubmit(handleCreatePostSubmit)}
@@ -117,7 +117,7 @@ function RouteComponent() {
           </FieldSet>
         </form>
       </section>
-      <section className="w-full lg:mx-0 lg:mr-auto lg:w-full lg:max-w-[56.25em] lg:border">
+      <section className="w-full lg:mx-0 lg:mr-auto lg:w-full lg:max-w-[70em] lg:border">
         {data?.pages.map((page) =>
           page.content.map((post) => (
             <Link

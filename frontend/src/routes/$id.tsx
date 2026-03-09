@@ -53,12 +53,12 @@ function RouteComponent() {
   return (
       <main className="lg:grid lg:grid-cols-[auto_1fr] lg:grid-rows-[auto_auto_minmax(0,1fr)]">
         <Header />
-        <section className="lg:mx-0 lg:mr-auto lg:w-full lg:max-w-[56.25em] lg:border lg:col-start-2">
+        <section className="lg:mx-0 lg:mr-auto lg:w-full lg:max-w-[70em] lg:border lg:col-start-2">
           <Post classname="border-b md:px-14 md:mx-auto text-xl" post={data} />
         </section>
         <section
           className="py-5 border-b md:px-14 md:mx-auto lg:col-start-2 lg:row-start-2
-        lg:mx-0 lg:mr-auto lg:w-full lg:max-w-[56.25em] lg:border lg:h-min"
+        lg:mx-0 lg:mr-auto lg:w-full lg:max-w-[70em] lg:border lg:h-min"
         >
           <form
             onSubmit={handleSubmit(handleCreatePostSubmit)}
@@ -109,7 +109,7 @@ function RouteComponent() {
             </picture>
           )}
         </section>
-        <section className="lg:col-start-2 lg:row-start-3 lg:mx-0 lg:mr-auto lg:w-full lg:max-w-[56.25em] lg:border">
+        <section className="lg:col-start-2 lg:row-start-3 lg:mx-0 lg:mr-auto lg:w-full lg:max-w-[70em] lg:border">
           {data.comments?.map((comment) => (
             <Link
               to="/$id"
