@@ -1,0 +1,46 @@
+version: "3.9"
+
+services:
+
+  mysql:
+    build: ./database
+    container_name: mysql-db
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: 12345
+      MYSQL_DATABASE: rede_social
+    volumes:
+      - mysql-data:/var/lib/mysql
+    env_file:
+      - ./database/.env
+    networks:
+      - app-network
+
+  backend:
+    build: ./backend
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+    volumes:
+      - /home/marcos/repositorio/social-media/imagens:/images
+    env_file:
+      - ./backend/.env
+    networks:
+      - app-network
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+volumes:
+  mysql-data:
+
+networks:
+  app-network:

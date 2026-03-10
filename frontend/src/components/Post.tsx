@@ -22,7 +22,7 @@ function Post({ classname, post, hasButtons = true }: PostProps) {
   const [quantLike, setQuantLike] = useState<number>(post.quantLike);
   const [copy, setCopy] = useState<boolean>(false);
   function textCopy(id: string) {
-    navigator.clipboard.writeText(`http://MYPROJECT/${id}`);
+    navigator.clipboard.writeText(`http://localhost/${id}`);
     setCopy(true);
   }
 
